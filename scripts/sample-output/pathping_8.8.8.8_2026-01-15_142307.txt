@@ -1,0 +1,61 @@
+==========================================================
+Pathping capture
+Target:      8.8.8.8
+Query count: 100
+Started:     2026-01-15 14:23:07 -05:00
+Hostname:    WORKSTATION-07
+==========================================================
+
+Tracing route to dns.google [8.8.8.8]
+over a maximum of 30 hops:
+  0  WORKSTATION-07.localdomain [192.168.1.45]
+  1  192.168.1.1
+  2  10.10.0.1
+  3  100.64.0.1
+  4  isp-edge-1.example.net [203.0.113.1]
+  5  isp-core-1.example.net [203.0.113.10]
+  6  google-peering.example.net [203.0.113.50]
+  7  108.170.241.97
+  8  142.251.49.245
+  9  dns.google [8.8.8.8]
+
+Computing statistics for 225 seconds...
+            Source to Here   This Node/Link
+Hop  RTT    Lost/Sent = Pct  Lost/Sent = Pct  Address
+  0                                           WORKSTATION-07.localdomain [192.168.1.45]
+                                0/ 100 =  0%   |
+  1    1ms    35/ 100 = 35%    35/ 100 = 35%  192.168.1.1
+                                0/ 100 =  0%   |
+  2    9ms    35/ 100 = 35%     0/ 100 =  0%  10.10.0.1
+                                0/ 100 =  0%   |
+  3   12ms    35/ 100 = 35%     0/ 100 =  0%  100.64.0.1
+                                0/ 100 =  0%   |
+  4   14ms    35/ 100 = 35%     0/ 100 =  0%  isp-edge-1.example.net [203.0.113.1]
+                                0/ 100 =  0%   |
+  5   18ms    35/ 100 = 35%     0/ 100 =  0%  isp-core-1.example.net [203.0.113.10]
+                                0/ 100 =  0%   |
+  6   22ms    35/ 100 = 35%     0/ 100 =  0%  google-peering.example.net [203.0.113.50]
+                                0/ 100 =  0%   |
+  7   24ms    35/ 100 = 35%     0/ 100 =  0%  108.170.241.97
+                                0/ 100 =  0%   |
+  8   25ms    35/ 100 = 35%     0/ 100 =  0%  142.251.49.245
+                                0/ 100 =  0%   |
+  9   25ms    35/ 100 = 35%     0/ 100 =  0%  dns.google [8.8.8.8]
+
+Trace complete.
+
+# ---- Reading this capture ----
+# Note: This is an illustrative sample matching the scenario in CASE_STUDY.md.
+# Hostnames, internal IPs, and upstream addresses have been redacted or
+# replaced with documentation-range examples (192.168.0.0/16, 10.0.0.0/8,
+# 100.64.0.0/10 CGNAT, 203.0.113.0/24 RFC 5737 documentation block).
+#
+# Key reading:
+#   - Hop 1 shows 35% loss on the "This Node/Link" column.
+#   - That same 35% propagates downstream to every subsequent hop on the
+#     "Source to Here" column.
+#   - Loss propagating downstream means the failure is real user-traffic loss,
+#     not an ICMP false positive at the hop. (A false positive would show loss
+#     at one hop only, with no propagation.)
+#   - Hops 2 through 9 each show 0% loss on "This Node/Link", confirming the
+#     fault is between hop 0 (host) and hop 1 (router) — i.e., the cable.
